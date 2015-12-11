@@ -111,6 +111,13 @@ public class CsvReader
         }
     }
 
+    ///<summary>Get the index of the specified item in the header.</summary>
+    ///<param name="item">The name of the item to get.</param>
+    public Int32 IndexOf(String item)
+    {
+        return header.IndexOf(item);
+    }
+
     ///<summary>Open a file stream then a stream reader using the specified path and encoding type.</summary>
     ///<param name="path">The path to a CSV file.</param>
     ///<param name="encoding">The encoding type, by default the system default encoding is used.</param>
@@ -239,16 +246,9 @@ public class CsvReader
     public String ReadLine(Int32 itemIndex)
     {
         List<String> items = ReadLine();
-        
-        if (items.Count > itemIndex)
-        {
-            return items[itemIndex];
-        }
-        else
-        {
-            // Throw an exception
-            return String.Empty;
-        }
+       
+        // Allow this to generate an OutOfRangeException if itemIndex is too small or too large.
+        return items[itemIndex];
     }
     
     ///<summary>Read a quoted item from a CSV file.</summary>

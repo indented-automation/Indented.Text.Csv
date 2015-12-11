@@ -7,7 +7,7 @@ using System.Management.Automation;
         "Csv",
         DefaultParameterSetName = "GetObject")]
 [OutputType(typeof(PSObject), ParameterSetName = new String[] { "GetObject" })]
-[OutputType(typeof(String), ParameterSetName = new String[] { "GetIndex" })]
+[OutputType(typeof(String), ParameterSetName = new String[] { "GetIndex", "GetItem" })]
 [OutputType(typeof(String[]), ParameterSetName = new String[] { "AsArray" })]
 public class ConvertFromCsv : BaseCsv
 {
@@ -28,22 +28,16 @@ public class ConvertFromCsv : BaseCsv
     {
         csvReader.OpenStream(InputObject);
       
-        if (csvReader.Header.Count == 0)
+        SetHeader();
+        
+        if (this.ParameterSetName == "GetItem" && Index == -2)
         {
-            SetHeader();
+            Index = csvReader.IndexOf(Item);
         }
         
-        if (MyInvocation.BoundParameters.ContainsKey("Index"))
+        if (csvReader.AtEndOfStream == false)
         {
-            WriteObject(csvReader.ReadLine(Index));
-        }
-        else if (AsArray == true)
-        {
-            WriteObject(csvReader.ReadLine());
-        }
-        else
-        {
-            WriteObject(csvReader.ReadLine(true));
+            WriteCsvObject();
         }
     }
     

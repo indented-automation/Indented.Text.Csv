@@ -9,10 +9,17 @@ public class BaseCsv : PSCmdlet
     [Parameter()]
     public Char Delimiter = ',';
     
+    [Parameter()]
     public String[] Header;
 
+    [Parameter()]
+    public SwitchParameter NoHeader;
+
     [Parameter(ParameterSetName = "GetIndex")]
-    public Int32 Index;
+    public Int32 Index = -2;
+    
+    [Parameter(ParameterSetName = "GetItem")]
+    public String Item;
     
     [Parameter(ParameterSetName = "AsArray")]
     public SwitchParameter AsArray;
@@ -23,16 +30,37 @@ public class BaseCsv : PSCmdlet
     #endregion
     
     #region Methods
+    ///<summary>Consume a line for the header unless either instructed not to, or another header has been supplied.</summary>
     internal void SetHeader()
     {
-        if (MyInvocation.BoundParameters.ContainsKey("Header"))
+        if (csvReader.Header.Count == 0)
         {
-            csvReader.SetHeader(Header);
+            if (MyInvocation.BoundParameters.ContainsKey("Header"))
+            {
+                csvReader.SetHeader(Header);
+            }
+            else if (NoHeader == false)
+            {
+                csvReader.ReadHeader(); 
+            }
         }
-        else
-        {
-            csvReader.ReadHeader(); 
-        }
+    }
+    
+    ///<summary>WriteObject to the output pipeline.</summary>
+    internal void WriteCsvObject()
+    {
+         if (this.ParameterSetName == "GetIndex" || this.ParameterSetName == "GetItem")
+          {
+              WriteObject(csvReader.ReadLine(Index));
+          }
+          else if (AsArray == true)
+          {
+              WriteObject(csvReader.ReadLine().ToArray());
+          }
+          else
+          {
+              WriteObject(csvReader.ReadLine(true));
+          }
     }
     #endregion
 }
