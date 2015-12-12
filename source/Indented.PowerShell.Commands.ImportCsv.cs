@@ -31,18 +31,13 @@ public class ImportCsv : BaseCsv
         
         SetHeader();
 
-        if (this.ParameterSetName == "GetItem" && Index != -2)
+        if (this.ParameterSetName == "GetItem" && Index == -2)
         {
             Index = csvReader.IndexOf(Item);
         }
 
-        if (csvReader.AtEndOfStream == false)
-        {
-            do {
-                WriteCsvObject();
-            } while (csvReader.AtEndOfStream != true);
-        }
-
+        WriteCsvObject();
+ 
         csvReader.Close();
     }
     #endregion

@@ -49,18 +49,23 @@ public class BaseCsv : PSCmdlet
     ///<summary>WriteObject to the output pipeline.</summary>
     internal void WriteCsvObject()
     {
-         if (this.ParameterSetName == "GetIndex" || this.ParameterSetName == "GetItem")
-          {
-              WriteObject(csvReader.ReadLine(Index));
-          }
-          else if (AsArray == true)
-          {
-              WriteObject(csvReader.ReadLine().ToArray());
-          }
-          else
-          {
-              WriteObject(csvReader.ReadLine(true));
-          }
+        if (csvReader.AtEndOfStream == false)
+        {
+            do {
+                if (this.ParameterSetName == "GetIndex" || this.ParameterSetName == "GetItem")
+                {
+                    WriteObject(csvReader.ReadLine(Index));
+                }
+                else if (AsArray == true)
+                {
+                    WriteObject(csvReader.ReadLine().ToArray());
+                }
+                else
+                {
+                    WriteObject(csvReader.ReadLine(true));
+                }
+            } while (csvReader.AtEndOfStream == false);
+        }
     }
     #endregion
 }

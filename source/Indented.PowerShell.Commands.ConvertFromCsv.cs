@@ -35,10 +35,7 @@ public class ConvertFromCsv : BaseCsv
             Index = csvReader.IndexOf(Item);
         }
         
-        if (csvReader.AtEndOfStream == false)
-        {
-            WriteCsvObject();
-        }
+        WriteCsvObject();
     }
     
     protected override void EndProcessing()
