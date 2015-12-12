@@ -6,7 +6,7 @@ A generic CSV processor class that (should) be able to handle all well-built CSV
 
 Built in response to a need for a (subjectively) very fast CSV processor where single fields could be extracted from extremely large data sets in PowerShell.
 
-Help documentation for the comamnds is part-written, test driving Indented.PowerShell.Help.
+Help documentation for the commands is part-written, test driving Indented.PowerShell.Help.
 
 ## Cmdlets
 
@@ -17,3 +17,7 @@ Converts a string to CSV format in much (or entirely) the same way as the native
 ### Import-Csv
 
 Reads text files and converts the content to the requested format.
+
+## Credits
+
+csv-spectrum by maxogden has been used to test and develop test cases for this module (https://github.com/maxogden/csv-spectrum).
