@@ -25,7 +25,7 @@ public class ImportCsv : BaseCsv
     #region Methods
     protected override void ProcessRecord()
     {
-        Path = Utility.GetFullPath(Path, this.SessionState.Path.CurrentFileSystemLocation.Path);
+        Path = this.GetUnresolvedProviderPathFromPSPath(Path);
       
         csvReader = new CsvReader(Path);
         
