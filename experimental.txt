@@ -1,0 +1,10 @@
+$ResourceWriter = New-Object System.Resources.ResourceWriter("C:\stuff\Development\Indented.Text.Csv\resources\Indented.Text.csv.en-GB.resources")
+$ResourceWriter.AddResource('ErrorMessage', 'Testing in GB')
+$ResourceWriter.Close()
+
+$ResourceWriter = New-Object System.Resources.ResourceWriter("C:\stuff\Development\Indented.Text.Csv\resources\Indented.Text.csv.en-US.resources")
+$ResourceWriter.AddResource('ErrorMessage', 'Testing in US')
+$ResourceWriter.Close()
+
+$ResourceManager = [System.Resources.ResourceManager]::CreateFileBasedResourceManager('Indented.Text.Csv', 'C:\stuff\Development\Indented.Text.Csv\Resources', $null)
+$ResourceManager.GetString('ErrorMessage')
