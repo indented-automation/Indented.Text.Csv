@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Management.Automation;
 using System.Reflection;
@@ -109,6 +110,30 @@ public class CsvReader
             fileStream.Close();
             fileStream.Dispose();
         }
+    }
+
+    ///<summary>Fill a DataTable with the content of the CSV file.</summary>
+    public DataTable FillDataTable()
+    {
+        DataTable dataTable = new DataTable();
+
+        if (header.Count == 0)
+        {
+            ReadHeader();
+            foreach (String column in header)
+            {
+                dataTable.Columns.Add(column);
+            }
+        }
+
+        do
+        {
+            DataRow row = dataTable.NewRow();
+            row.ItemArray = ReadLine().ToArray();
+            dataTable.Rows.Add(row);
+        } while (!AtEndOfStream);
+
+        return dataTable;
     }
 
     ///<summary>Get the index of the specified item in the header.</summary>
